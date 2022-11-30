@@ -1,3 +1,4 @@
+// === import ===
 const UtilisateurSchema = require("../models/user.js");
 const PostSchema = require("../models/twito.js");
 const SondageSchema = require("../models/twitosAnswer.js");
@@ -10,7 +11,7 @@ const CreateUser = async (req, res) => {
     const Utilisateur = new UtilisateurSchema();
     Utilisateur.username = user;
     await Utilisateur.save();
-    res.status(200).send("utilisateur créer");
+    res.status(200).send("utilisateur crée");
   } catch (error) {
     console.log(error);
     res.status(404).send("Erreur...");
@@ -21,7 +22,7 @@ const CreatePost = async (req, res) => {
   try {
     const Post = new PostSchema();
     await Post.save();
-    res.status(200).send("Le post à bien été envoyer");
+    res.status(200).send("Le post à bien été envoyé");
   } catch (error) {
     res.status(404).send("Erreur...");
   }
@@ -32,7 +33,7 @@ const CreateSondage = async (req, res) => {
   try {
     const Sondage = new SondageSchema();
     await Sondage.save();
-    res.status(200).send("Le sondage à bien été envoyer");
+    res.status(200).send("Le sondage à bien été envoyé");
   } catch (error) {
     res.status(404).send("Erreur...");
   }

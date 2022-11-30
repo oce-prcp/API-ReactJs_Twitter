@@ -1,5 +1,5 @@
 // === import ===
-const utilisateur = require("../Models/Utilisateur");
+const utilisateur = require("../models/user");
 
 // === Crée un utilisateur ===
 const CreateUtilisateur = async (req, res, next) => {

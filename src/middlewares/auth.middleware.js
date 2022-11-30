@@ -1,4 +1,4 @@
-// === Importation ===
+// === import ===
 const User = require("../models/User");
 
 // === Système d'autentification ===
