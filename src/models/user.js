@@ -9,4 +9,4 @@ const userSchema = new Schema({
   },
 });
 
-module.exports = model("user", todolistSchema, "user");
+module.exports = model("user", userSchema, "user");

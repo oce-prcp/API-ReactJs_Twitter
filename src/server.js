@@ -1,7 +1,7 @@
 // === import ===
 const express = require("express");
 const isAuthenticated = require("./middlewares/auth.middleware");
-const controllers = require("./controllers/twitos.controllers");
+const controllers = require("./controllers/twitos.controller");
 const dto = require("./models/twitos.dto");
 
 const app = express();
