@@ -1,4 +1,5 @@
 // === import ===
+const mongoose = require("mongoose");
 const { model, Schema } = require("mongoose");
 
 const todolistSchema = new Schema({
@@ -16,4 +17,5 @@ const todolistSchema = new Schema({
   },
 });
 
-module.exports = model("twito", todolistSchema, "twito");
+module.exports =
+  mongoose.models.Twito || model("Twito", todolistSchema, "twitos");

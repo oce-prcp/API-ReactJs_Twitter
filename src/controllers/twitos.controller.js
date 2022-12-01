@@ -4,7 +4,7 @@ const PostSchema = require("../models/twito.js");
 const SondageSchema = require("../models/twitosAnswer.js");
 const Utilisateur = require("../models/user.js");
 
-// === Crée un utlisateur ===
+// === Crée un utilisateur ===
 const CreateUser = async (req, res) => {
   try {
     const user = req.body.user;
@@ -14,7 +14,7 @@ const CreateUser = async (req, res) => {
     res.status(200).send("utilisateur crée");
   } catch (error) {
     console.log(error);
-    res.status(404).send("Erreur...");
+    res.status(404).send("erreur");
   }
 };
 // === Crée un model vide de post ===
@@ -24,7 +24,7 @@ const CreatePost = async (req, res) => {
     await Post.save();
     res.status(200).send("Le post à bien été envoyé");
   } catch (error) {
-    res.status(404).send("Erreur...");
+    res.status(404).send("erreur");
   }
 };
 
@@ -35,7 +35,7 @@ const CreateSondage = async (req, res) => {
     await Sondage.save();
     res.status(200).send("Le sondage à bien été envoyé");
   } catch (error) {
-    res.status(404).send("Erreur...");
+    res.status(404).send("erreur");
   }
 };
 
@@ -48,7 +48,7 @@ const DeleteUtilisateur = async (req, res) => {
     return;
   } catch (error) {
     console.log(error);
-    res.status(404).send("Erreur...");
+    res.status(404).send("erreur");
   }
 };
 

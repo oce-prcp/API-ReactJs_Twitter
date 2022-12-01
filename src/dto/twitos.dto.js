@@ -8,10 +8,11 @@ const CreateUtilisateur = async (req, res, next) => {
     if (!user) {
       res.status(400).send("Nom de l'user manquant");
       return;
+      x;
     }
     const userExist = await utilisateur.exists({ username: user });
     if (userExist) {
-      res.status(400).send("L'user exist déja");
+      res.status(400).send("L'user existe déjà");
       return;
     }
     return next();
@@ -27,7 +28,7 @@ const DelUtilisateur = async (req, res, next) => {
     const user = req.user;
     const userExist = await utilisateur.exists({ username: user.username });
     if (!userExist) {
-      res.status(404).send("L'utilisateur existe pas ");
+      res.status(404).send("L'utilisateur n'existe pas ");
       return;
     }
     return next();

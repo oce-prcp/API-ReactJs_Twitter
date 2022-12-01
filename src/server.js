@@ -2,23 +2,23 @@
 const express = require("express");
 const isAuthenticated = require("./middlewares/auth.middleware");
 const controllers = require("./controllers/twitos.controller");
-const dto = require("./models/twitos.dto");
+const dto = require("./dto/twitos.dto");
 
 const app = express();
 app.use(express.json());
-require("./database/index");
+require("./database");
 
 // === Route raçine du projet ===
-server.get("/", (req, res) => {
+app.get("/", (req, res) => {
   res.status(200).json({ message: "Welcome to the Twitos API" });
 });
 
 // === CRUD (Create, read, update, delete) (routes) ===
 // === Crée un utilisateur ===
-server.post("/CreateUtilisateur", dto.CreateUtilisateur, controller.CreateUser);
+app.post("/CreateUtilisateur", dto.CreateUtilisateur, controller.CreateUser);
 
 // === Suprimer un utilisateur ===
-server.delete(
+app.delete(
   "/DelUtilisateur",
   isAuthenticated,
   dto.DelUtilisateur,
@@ -26,7 +26,7 @@ server.delete(
 );
 
 // === Modifie un utilisateur ===
-server.patch(
+app.patch(
   "/PatchUtilisateur",
   isAuthenticated,
   dto.dtoPatchUtilisateur,

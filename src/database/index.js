@@ -28,7 +28,3 @@ connect(
   "mongodb+srv://oce:gomette2003@cluster0.uzq3vog.mongodb.net/?retryWrites=true&w=majority",
   { useUnifiedTopology: true, useNewUrlParser: true }
 );
-
-app.listen(3000, () => {
-  console.log("listening on port 3000");
-});
