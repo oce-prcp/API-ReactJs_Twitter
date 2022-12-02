@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const { model, Schema } = require("mongoose");
 
-const todolistSchema = new Schema({
+const Post = new Schema({
   text: String,
 
   isSurvey: Boolean,
@@ -17,5 +17,4 @@ const todolistSchema = new Schema({
   },
 });
 
-module.exports =
-  mongoose.models.Twito || model("Twito", todolistSchema, "twitos");
+module.exports = mongoose.models.Twito || model("Twito", Post, "twitos");

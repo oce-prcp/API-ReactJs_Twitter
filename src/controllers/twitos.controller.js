@@ -1,15 +1,14 @@
 // === import ===
-const UtilisateurSchema = require("../models/user.js");
+const utilisateur = require("../models/user.js");
 const PostSchema = require("../models/twito.js");
 const SondageSchema = require("../models/twitosAnswer.js");
-const Utilisateur = require("../models/user.js");
 
 // === Crée un utilisateur ===
 const CreateUser = async (req, res) => {
   try {
     const user = req.body.user;
-    const Utilisateur = new UtilisateurSchema();
-    Utilisateur.username = user;
+    const Utilisateur = new utilisateur();
+    Utilisateur.name = user;
     await Utilisateur.save();
     res.status(200).send("utilisateur crée");
   } catch (error) {
@@ -17,10 +16,31 @@ const CreateUser = async (req, res) => {
     res.status(404).send("erreur");
   }
 };
+
+// === Récupère un utilisateur ===
+const getUser = async (req, res, next) => {
+  try {
+    const user = req.params.user;
+    const userTweeter = await utilisateur.findOne({ name: user });
+    res.status(200).json({ name: userTweeter.name });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Une erreur est survenue...");
+  }
+};
 // === Crée un model vide de post ===
 const CreatePost = async (req, res) => {
   try {
-    const Post = new PostSchema();
+    const user = req.params.user;
+    const text = req.body.text;
+    const isSurvey = req.body.isSurvey;
+    const userTweeter = await utilisateur.findOne({ name: user });
+    const Post = new PostSchema({
+      user: userTweeter._id,
+      text: text,
+      isSurvey: isSurvey,
+    });
+    Post.user = userTweeter._id;
     await Post.save();
     res.status(200).send("Le post à bien été envoyé");
   } catch (error) {
@@ -42,8 +62,9 @@ const CreateSondage = async (req, res) => {
 // === Supprimer un utlisateur ===
 const DeleteUtilisateur = async (req, res) => {
   try {
-    const user = req.user;
-    await user.remove();
+    const user = req.params.username;
+    const userTweeter = await utilisateur.findOne({ name: user });
+    await userTweeter.remove();
     res.status(200).send("L'utilisateur est supprimé");
     return;
   } catch (error) {
@@ -72,6 +93,7 @@ module.exports = {
   CreateSondage,
   CreatePost,
   CreateUser,
+  getUser,
   DeleteUtilisateur,
   patchUtilisateur,
 };

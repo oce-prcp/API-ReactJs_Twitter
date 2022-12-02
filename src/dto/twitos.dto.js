@@ -2,20 +2,43 @@
 const utilisateur = require("../models/user");
 
 // === Crée un utilisateur ===
-const CreateUtilisateur = async (req, res, next) => {
+const CreateUser = async (req, res, next) => {
   try {
     const user = req.body.user;
     if (!user) {
       res.status(400).send("Nom de l'user manquant");
       return;
-      x;
     }
-    const userExist = await utilisateur.exists({ username: user });
+    const userExist = await utilisateur.exists({ name: user });
     if (userExist) {
       res.status(400).send("L'user existe déjà");
       return;
     }
-    return next();
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Une erreur est survenue...");
+  }
+};
+
+const getUser = async (req, res, next) => {
+  try {
+    const user = req.params.user;
+    const userTweeter = await utilisateur.findOne(
+      { name: user },
+      { _id: 0, __v: 0 }
+    );
+    if (!user) {
+      res.status(404).send("L'utilisateur n'existe pas");
+      return;
+    }
+    if (!userTweeter) {
+      console.log(userTweeter);
+      res.status(404).send("Utilisateur pas trouvé ");
+      return;
+    }
+
+    next();
   } catch (error) {
     console.log(error);
     res.status(500).send("Une erreur est survenue...");
@@ -25,13 +48,17 @@ const CreateUtilisateur = async (req, res, next) => {
 // === Supprime un utilisateur ===
 const DelUtilisateur = async (req, res, next) => {
   try {
-    const user = req.user;
-    const userExist = await utilisateur.exists({ username: user.username });
+    const user = req.params.username;
+    const userExist = await utilisateur.exists({ name: user });
+    if (!user) {
+      res.status(404).send("Utilisateur pas trouvé");
+      return;
+    }
     if (!userExist) {
       res.status(404).send("L'utilisateur n'existe pas ");
       return;
     }
-    return next();
+    next();
   } catch (error) {
     console.log(error);
     res.status(500).send("Une erreur est survenue...");
@@ -40,9 +67,13 @@ const DelUtilisateur = async (req, res, next) => {
 
 const dtoPatchUtilisateur = async (req, res, next) => {
   try {
-    const user = req.params.user;
-    const userTweeter = await User.findOne({ name: user });
+    const user = req.params.username;
+    const userTweeter = await utilisateur.findOne({ name: user });
     if (!userTweeter) {
+      res.status(404).send("Utilisateur pas trouvé ");
+      return;
+    }
+    if (!user) {
       res.status(404).send("Utilisateur pas trouvé ");
       return;
     }
@@ -53,8 +84,38 @@ const dtoPatchUtilisateur = async (req, res, next) => {
   }
 };
 
+const dtoCreatePost = async (req, res, next) => {
+  try {
+    const user = req.params.user;
+    const text = req.body.text;
+    const isSurvey = req.body.isSurvey;
+    const userTweeter = await utilisateur.findOne({ name: user });
+    if (!user) {
+      res.status(404).send("Utilisateur pas trouvé ");
+      return;
+    }
+    if (!text) {
+      res.status(404).send("Texte pas trouvé ");
+      return;
+    }
+    if (isSurvey !== true && isSurvey !== false) {
+      res.status(404).send("isSurvey pas trouvé ");
+      return;
+    }
+    if (!userTweeter) {
+      res.status(404).send("Utilisateur pas trouvé ");
+      return;
+    }
+    next();
+  } catch (error) {
+    res.status(500).send("Une erreur est survenue");
+  }
+};
+
 module.exports = {
-  CreateUtilisateur,
+  CreateUser,
   DelUtilisateur,
+  getUser,
   dtoPatchUtilisateur,
+  dtoCreatePost,
 };

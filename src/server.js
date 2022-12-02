@@ -13,24 +13,26 @@ app.get("/", (req, res) => {
   res.status(200).json({ message: "Welcome to the Twitos API" });
 });
 
+app.get("/user/:user", dto.getUser, controllers.getUser);
+
 // === CRUD (Create, read, update, delete) (routes) ===
 // === Crée un utilisateur ===
-app.post("/CreateUtilisateur", dto.CreateUtilisateur, controller.CreateUser);
+app.post("/CreateUtilisateur", dto.CreateUser, controllers.CreateUser);
 
+// === Crée un post ===
+app.post("/CreatePost/:user", dto.dtoCreatePost, controllers.CreatePost);
 // === Suprimer un utilisateur ===
 app.delete(
-  "/DelUtilisateur",
-  isAuthenticated,
+  "/DelUtilisateur/:username",
   dto.DelUtilisateur,
-  controller.DeleteUtilisateur
+  controllers.DeleteUtilisateur
 );
 
 // === Modifie un utilisateur ===
 app.patch(
-  "/PatchUtilisateur",
-  isAuthenticated,
+  "/PatchUtilisateur/:username",
   dto.dtoPatchUtilisateur,
-  controller.patchUtilisateur
+  controllers.patchUtilisateur
 );
 
 // === Ecoute le port 3000 ===
