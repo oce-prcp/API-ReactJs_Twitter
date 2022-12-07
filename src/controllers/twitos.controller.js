@@ -48,17 +48,6 @@ const CreatePost = async (req, res) => {
   }
 };
 
-// === Crée un model vide de sondage ===
-const CreateSondage = async (req, res) => {
-  try {
-    const Sondage = new SondageSchema();
-    await Sondage.save();
-    res.status(200).send("Le sondage à bien été envoyé");
-  } catch (error) {
-    res.status(404).send("erreur");
-  }
-};
-
 // === Supprimer un utlisateur ===
 const DeleteUtilisateur = async (req, res) => {
   try {
@@ -89,6 +78,54 @@ const patchUtilisateur = async (req, res) => {
   }
 };
 
+// === Supprimer un twito ===
+const DeletePost = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const post = await PostSchema.findById(id);
+    await post.remove();
+    res.status(200).send("Le post est supprimé");
+    return;
+  } catch (error) {
+    console.log(error);
+    res.status(404).send("erreur");
+  }
+};
+
+const patchPost = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = req.body.text;
+    const post = await PostSchema.findById(id);
+    post.text = data;
+    await post.save();
+    res.status(200).json({ text: post.text });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("une erreur est survenue");
+  }
+};
+
+// === Crée un sondage ===
+const CreateSondage = async (req, res) => {
+  try {
+    const user = req.params.user;
+    const text = req.body.text;
+    const isSurvey = req.body.isSurvey;
+    const userTweeter = await utilisateur.findOne({ name: user });
+    const Post = new PostSchema({
+      user: userTweeter._id,
+      text: text,
+      isSurvey: isSurvey,
+    });
+    Post.user = userTweeter._id;
+    await Post.save();
+    res.status(200).send("Le post à bien été envoyé");
+  } catch (error) {
+    res.status(404).send("erreur");
+  }
+};
+
 module.exports = {
   CreateSondage,
   CreatePost,
@@ -96,4 +133,7 @@ module.exports = {
   getUser,
   DeleteUtilisateur,
   patchUtilisateur,
+  DeletePost,
+  patchPost,
+  CreateSondage,
 };

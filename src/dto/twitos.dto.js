@@ -84,7 +84,84 @@ const dtoPatchUtilisateur = async (req, res, next) => {
   }
 };
 
+// === Crée un poste ===
 const dtoCreatePost = async (req, res, next) => {
+  try {
+    const user = req.params.user;
+    const text = req.body.text;
+    const isSurvey = req.body.isSurvey;
+    const userTweeter = await utilisateur.findOne({ name: user });
+    if (!user) {
+      res.status(404).send("Utilisateur pas trouvé ");
+      return;
+    }
+    if (!text) {
+      res.status(404).send("Texte pas trouvé ");
+      return;
+    }
+    if (isSurvey !== true && isSurvey !== false) {
+      res.status(404).send("isSurvey pas trouvé ");
+      return;
+    }
+    if (!userTweeter) {
+      res.status(404).send("Utilisateur pas trouvé ");
+      return;
+    }
+    next();
+  } catch (error) {
+    res.status(500).send("Une erreur est survenue");
+  }
+};
+
+// === Supprimer un poste ===
+const dtoDelPost = async (req, res, next) => {
+  try {
+    const user = req.params.username;
+    const id = req.params.id;
+    const userTweeter = await utilisateur.findOne({ name: user });
+    if (!user) {
+      res.status(404).send("Utilisateur pas trouvé ");
+      return;
+    }
+    if (!id) {
+      res.status(404).send("id pas trouvé ");
+      return;
+    }
+    if (!userTweeter) {
+      res.status(404).send("Utilisateur pas trouvé ");
+      return;
+    }
+    next();
+  } catch (error) {
+    res.status(500).send("Une erreur est survenue");
+  }
+};
+
+const dtoPatchPost = async (req, res, next) => {
+  try {
+    const user = req.params.username;
+    const id = req.params.id;
+    const userTweeter = await utilisateur.findOne({ name: user });
+    if (!user) {
+      res.status(404).send("Utilisateur pas trouvé ");
+      return;
+    }
+    if (!id) {
+      res.status(404).send("id pas trouvé ");
+      return;
+    }
+    if (!userTweeter) {
+      res.status(404).send("Utilisateur pas trouvé ");
+      return;
+    }
+    next();
+  } catch (error) {
+    res.status(500).send("Une erreur est survenue");
+  }
+};
+
+// === Crée un sondage ===
+const CreateSondage = async (req, res, next) => {
   try {
     const user = req.params.user;
     const text = req.body.text;
@@ -118,4 +195,7 @@ module.exports = {
   getUser,
   dtoPatchUtilisateur,
   dtoCreatePost,
+  dtoDelPost,
+  dtoPatchPost,
+  CreateSondage,
 };

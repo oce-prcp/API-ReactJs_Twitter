@@ -21,6 +21,10 @@ app.post("/CreateUtilisateur", dto.CreateUser, controllers.CreateUser);
 
 // === Crée un post ===
 app.post("/CreatePost/:user", dto.dtoCreatePost, controllers.CreatePost);
+
+// === Crée un sondage ===
+app.post("/CreateSondage/:user", dto.CreateSondage, controllers.CreateSondage);
+
 // === Suprimer un utilisateur ===
 app.delete(
   "/DelUtilisateur/:username",
@@ -28,12 +32,18 @@ app.delete(
   controllers.DeleteUtilisateur
 );
 
+// === Suprimer un post ===
+app.delete("/DelPost/:username/:id", dto.dtoDelPost, controllers.DeletePost);
+
 // === Modifie un utilisateur ===
 app.patch(
   "/PatchUtilisateur/:username",
   dto.dtoPatchUtilisateur,
   controllers.patchUtilisateur
 );
+
+// === Modifie un post ===
+app.patch("/PatchPost/:username/:id", dto.dtoPatchPost, controllers.patchPost);
 
 // === Ecoute le port 3000 ===
 app.listen(3000, () => {
